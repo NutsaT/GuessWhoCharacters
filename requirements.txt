@@ -1,6 +1,7 @@
 fastapi
-uvicorn
+uvicorn[standard]
 ddgs
 requests
-opencv-python
+opencv-python-headless
 websockets
+numpy
