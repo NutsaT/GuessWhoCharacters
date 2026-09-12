@@ -2,3 +2,4 @@ fastapi
 uvicorn
 ddgs
 requests
+cv2
