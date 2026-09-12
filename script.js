@@ -81,7 +81,7 @@ const roomId = window.location.pathname.split("/").pop();
 
 if (roomId && window.location.pathname.startsWith("/game/")) {
     const socket = new WebSocket(
-        `ws://${window.location.host}/ws/${roomId}`
+        `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/ws/${roomId}`
     );
 
     socket.onopen = function () {
