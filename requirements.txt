@@ -2,4 +2,4 @@ fastapi
 uvicorn
 ddgs
 requests
-cv2
+opencv-python
