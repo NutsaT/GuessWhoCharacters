@@ -10,7 +10,9 @@ import os
 import cv2
 import numpy as np
 from fastapi.responses import FileResponse, Response
-
+print("CV2 LOCATION:", cv2.__file__)
+print("CV2 VERSION:", cv2.__version__)
+print("HAS CASCADE:", hasattr(cv2, "CascadeClassifier"))
 
 app = FastAPI()
 rooms ={}
