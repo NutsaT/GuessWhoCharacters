@@ -3,3 +3,4 @@ uvicorn
 ddgs
 requests
 opencv-python
+websockets
