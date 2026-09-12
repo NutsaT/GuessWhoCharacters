@@ -305,16 +305,15 @@ def get_movie_by_popularity():
 
 
    print(film['id'])
-   return film['id']
+   return film['id'], film['title']
 
 
 
 
-get_movie_by_popularity()
 
 
 def get_a_character():
-   movie_id=get_movie_by_popularity()
+   movie_id,movie_title=get_movie_by_popularity()
    url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={API_KEY}"
 
 
@@ -326,7 +325,7 @@ def get_a_character():
 
 
    print(random_character)
-   return random_character
+   return random_character,movie_title
 # get_a_character()
 
 
@@ -339,22 +338,48 @@ from ddgs import DDGS
 
 def get_image():
     try:
-        character_name =f'{get_a_character()} fictional character' #}
-        if "(voice)" in character_name:
-            character_name=character_name.replace("(voice)","")
+        character_name_unchanged, movie_title = get_a_character()
+
+        character_name = (
+            f'"{character_name_unchanged}" FICTIONAL CHARACTER "{movie_title}" '
+        )
+        character_name_unchanged += f" ({movie_title})"
+
+        print("\n\nCHARACTER NAME:",character_name)
+        # if "(voice)" in character_name:
+        #     character_name = character_name.replace("(voice)", "")
+
         results = DDGS().images(
             query=character_name,
-            max_results=1
-
+            max_results=10,
+            backend="google"
         )
 
         for result in results:
-            print(result["image"])
-        return result["image"]
+            image_url = result["image"]
+
+            try:
+                response = requests.get(
+                    image_url,
+                    timeout=5,
+                    stream=True
+                )
+
+                if response.status_code == 200:
+                    print("Working image:", image_url)
+                    return image_url, character_name_unchanged
+
+                print("Broken image:", image_url, response.status_code)
+
+            except requests.RequestException as e:
+                print("Image failed:", image_url, e)
+
+        print("No working images found")
+        return None
+
     except Exception as e:
         print("Image search failed:", e)
         return None
-
 
 # image_url = get_wikipedia_image(character_name)
 
