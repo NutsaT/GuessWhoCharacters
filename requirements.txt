@@ -2,6 +2,6 @@ fastapi
 uvicorn[standard]
 ddgs
 requests
-opencv-python-headless
+opencv-python==4.12.0.88
 websockets
 numpy
